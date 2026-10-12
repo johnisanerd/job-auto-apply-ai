@@ -3,12 +3,13 @@
 import * as React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutDashboard, FileText, Briefcase, Send, Settings, Bot, Target, MapPin } from 'lucide-react';
+import { LayoutDashboard, FileText, Briefcase, Send, Settings, Bot, Target, MapPin, Building2 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 
 const navItems = [
   { name: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
   { name: 'Resume', href: '/resume', icon: FileText },
+  { name: 'Business Leads', href: '/business-leads', icon: Building2 },
   { name: 'Jobs', href: '/jobs', icon: Briefcase },
   { name: 'IT / Freelance Leads', href: '/jobs/freelance', icon: Target },
   { name: 'Ahmedabad Jobs', href: '/jobs/ahmedabad', icon: MapPin },

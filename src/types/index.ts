@@ -75,3 +75,23 @@ export interface AutoScoutLead {
   appliedAt?: number;
   errorReason?: string;
 }
+
+export interface BusinessLead {
+  id: string;
+  companyName: string;
+  websiteUrl: string;
+  email: string;
+  mobileNumber: string;
+  address: string;
+  searchQuery: string;
+  intent: 'High' | 'Medium' | 'Low';
+  leadType: 'Potential Buyer' | 'IT Service Provider' | 'Unknown' | 'Blog/Article';
+  leadScore: number;
+  scrapedDate: string;
+  postedDate: string;
+  status: 'new' | 'applied' | 'no_email' | 'failed' | 'ignored' | 'email_sent';
+  emailStatus?: 'SENT' | 'FAILED' | 'NOT_SENT';
+  domain: string;
+  notes?: string;
+}
+

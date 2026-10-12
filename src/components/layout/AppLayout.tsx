@@ -16,7 +16,8 @@ import {
   Plus, 
   Search, 
   FileText, 
-  Globe
+  Globe,
+  Building2
 } from 'lucide-react';
 import { cn } from '@/utils/cn';
 import { useAppStore } from '@/lib/store';
@@ -37,6 +38,7 @@ const sidebarSections = [
   {
     title: 'Job Discovery',
     items: [
+      { name: 'Business Leads Scraper', href: '/business-leads', icon: Building2 },
       { name: 'Manual Auto-Scout', href: '/auto-scout', icon: Globe },
       { name: 'Auto-Pilot (Cron Jobs)', href: '/auto-scout/dashboard', icon: Target },
       { name: 'Contract & Flexible Jobs', href: '/jobs/flexible', icon: Briefcase },
