@@ -2,6 +2,12 @@ import { Lead } from '@/types/lead';
 import { ApifySource } from './client';
 import { v4 as uuidv4 } from 'uuid';
 
+// The Indeed and Wellfound actors tag rows with result_type, and a free-tier run
+// can end with a notice row; only real job rows become leads
+function isJobRow(item: { result_type?: string; free_tier_notice?: boolean }): boolean {
+  return !item.free_tier_notice && (!item.result_type || item.result_type === 'job');
+}
+
 export function normalizeApifyResults(source: ApifySource, items: any[]): Lead[] {
   const normalized = items.map((item) => {
     try {
@@ -43,6 +49,36 @@ export function normalizeApifyResults(source: ApifySource, items: any[]): Lead[]
           url: item.url || '',
           postedAt: item.date || item.postedAt,
           skills: item.skills || [],
+        } as Lead;
+      } else if (source === 'indeed') {
+        if (!isJobRow(item)) return null;
+        return {
+          id: item.jobId || uuidv4(),
+          source: 'Indeed',
+          leadType: 'job' as const,
+          title: item.jobTitle || 'Unknown Position',
+          company: item.companyName,
+          description: item.descriptionText || item.descriptionMarkdown || '',
+          location: item.location,
+          url: item.jobUrl || '',
+          budget: item.salaryText,
+          postedAt: item.datePosted,
+          skills: [],
+        } as Lead;
+      } else if (source === 'wellfound') {
+        if (!isJobRow(item)) return null;
+        return {
+          id: item.id || uuidv4(),
+          source: 'Wellfound',
+          leadType: 'job' as const,
+          title: item.title || 'Unknown Position',
+          company: item.company?.name,
+          description: item.description || '',
+          location: item.locationNames?.join(', ') || (item.remote ? 'Remote' : undefined),
+          url: item.url || '',
+          budget: item.compensationRaw,
+          postedAt: item.postedAt,
+          skills: [],
         } as Lead;
       } else {
         // Generic fallback
